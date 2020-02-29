@@ -1,0 +1,7 @@
+﻿{
+	"install": "dotnet build",
+	"start": "cd Tippy && dotnet run",
+	"watch": {
+		"throttle": 900000000000
+	}
+}
