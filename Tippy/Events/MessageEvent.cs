@@ -45,7 +45,7 @@ namespace Tippy.Events
                     await _manager.InsertUser(data);
                     return;
                 }
-
+                
                 var userprof = user.FirstOrDefault();
                 int currentLevel = userprof.Level;
                 int currentXp = userprof.Xp;

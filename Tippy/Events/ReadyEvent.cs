@@ -9,7 +9,6 @@ namespace Tippy.Events
 {
     public class ReadyEvent
     {
-        private bool _init;
         private bool _addToAll;
         private readonly DiscordSocketClient _discord;
         private ILogger _logger;
