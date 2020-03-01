@@ -38,9 +38,13 @@ namespace Tippy.Events
                     var data = new Database.User
                     {
                         UserId = message.Author.Id,
+                        Rep = 0,
                         Xp = 0,
                         Level = 0,
-                        Money = 0
+                        Money = 0,
+                        LastDaily = new TimeSpan(0, 0, 0),
+                        LastRep = new TimeSpan(0, 0, 0),
+                        LastWork = new TimeSpan(0, 0, 0)
                     };
                     await _manager.InsertUser(data);
                     return;
@@ -64,25 +68,6 @@ namespace Tippy.Events
                 }
 
                 LevelingUtil.addUserToSpamFilter((long)message.Author.Id);
-                /*
-                Console.WriteLine($"== {message.Author.Username} ==");
-                Console.WriteLine($"Converted xp : {Convert.ToInt32(userprof.Xp)} \nType : {currentXp.GetType()}");
-                Console.WriteLine($"Random XP : {randomXp}");
-                Console.WriteLine($"Current Level : {currentLevel}");
-                Console.WriteLine($"New Level : {newlevel}");
-                Console.WriteLine($"New Xp : {newXp}");
-
-                if (newlevel > currentLevel)
-                {
-                    _handler.AddLevel(message.Author.Id, 1);
-                    _handler.AddXp(message.Author.Id, newXp);
-                    var msg = await message.Channel.SendMessageAsync($"🎉 Congratulations <@{message.Author.Id}> ! You has leveled up to **`{newlevel}`** !");
-                }
-                else
-                {
-                    _handler.AddXp(message.Author.Id, newXp);
-                }
-                //LevelingUtil.addUserToSpamFilter((long)message.Author.Id);*/
             }
         }
     }

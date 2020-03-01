@@ -7,17 +7,14 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Tippy.Services;
 using Serilog;
+using System.Linq;
 using Microsoft.Extensions.Logging;
-using System.Net.Sockets;
-using System.Net;
-using System.Threading;
-using System.Text;
+using System.Timers;
 
 namespace Tippy
 {
     public class Program
     {
-        
         private static readonly string _logLevel = null;
 
         [Obsolete]
@@ -50,7 +47,7 @@ namespace Tippy
             return Task.CompletedTask;
         }
 
-        private IServiceProvider ConfigureServices()
+        private static IServiceProvider ConfigureServices()
         {
             var services = new ServiceCollection()
                 .AddSingleton<LoggingService>()

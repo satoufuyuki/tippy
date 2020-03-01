@@ -22,6 +22,7 @@ namespace Tippy.Modules
         }
 
         [Command("eval")]
+		[Alias("ev", "e")]
         [Summary("Evaluate")]
         [RequireOwner(ErrorMessage = "You're not my developer!")]
         public async Task EvalAsync([Remainder] string code = null)
