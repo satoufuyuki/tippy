@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Tippy.Database;
+using Tippy.Services;
 
 namespace Tippy.Modules
 {
@@ -11,12 +12,7 @@ namespace Tippy.Modules
 	public class CurrencyModule : ModuleBase<SocketCommandContext>
 	{
 		private Manager _manager = new Manager(Assets.MONGO_DB_CONNECTION_QUERY);
-
-		private async Task SetTime(string id, string field, int period)
-		{
-			var time = TimeSpan.FromHours(period);
-			await _manager.UpdateUser(id, field, time.ToString());
-		}
+		private LevelingUtil util = new LevelingUtil();
 
 		[Command("daily")]
 		[Alias("dailies")]
@@ -24,32 +20,18 @@ namespace Tippy.Modules
 		public async Task DailyAsync()
 		{
 			var data = await _manager.GetUsersByField("UserId", Context.Message.Author.Id.ToString());
-			if (data.FirstOrDefault() == null)
+			TimeSpan now = DateTime.Now.TimeOfDay;
+			var cooldown = util.Cooldown(data.FirstOrDefault().LastDaily, new TimeSpan(24, 0, 0), @"hh\h\ mm\m\ ss\s");
+			if (cooldown != "false")
 			{
-				var newData = new User
-				{
-					UserId = Context.Message.Author.Id,
-					Xp = 0,
-					Level = 0,
-					Money = 250,
-					LastDaily = new TimeSpan(24, 0, 0),
-					LastRep = new TimeSpan(0, 0, 0),
-					LastWork = new TimeSpan(0, 0, 0)
-				};
-				await _manager.InsertUser(newData);
-				await Context.Message.Channel.SendMessageAsync($"💵 | <@{Context.Message.Author.Id}> collected $200 from daily reward !");
+				await Context.Channel.SendMessageAsync($"<@{Context.Message.Author.Id}>, you can collect your daily again in **{cooldown}**");
 				return;
 			}
 
-			if (data.FirstOrDefault().LastDaily != new TimeSpan(0, 0, 0))
-			{
-				await Context.Channel.SendMessageAsync($"<@{Context.Message.Author.Id}>, you can collect your daily again in **{data.FirstOrDefault().LastDaily.ToString(@"hh\h\ mm\m\ ss\s")}**");
-				return;
-			}
-
+			await _manager.UpdateUser(Context.User.Id.ToString(), "LastDaily", now.ToString());
+			await _manager.UpdateUser(Context.User.Id.ToString(), "NextDaily", (now + new TimeSpan(24, 0, 0)).ToString());
 			await Context.Message.Channel.SendMessageAsync($"💵 | <@{Context.Message.Author.Id}> collected $200 from daily reward !");
 			await _manager.UpdateUser(Context.User.Id.ToString(), "Money", (data.FirstOrDefault().Money + 250).ToString());
-			await SetTime(Context.Message.Author.Id.ToString(), "LastDaily", 1);
 		}
 
 		/* /// Discontinued ///

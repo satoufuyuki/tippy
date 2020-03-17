@@ -3,6 +3,7 @@ using Discord.Commands;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Tippy.Database;
@@ -21,7 +22,7 @@ namespace Tippy.Modules
 			public Manager manager { get; internal set; }
         }
 
-        [Command("eval")]
+		[Command("eval")]
 		[Alias("ev", "e")]
         [Summary("Evaluate")]
         [RequireOwner(ErrorMessage = "You're not my developer!")]

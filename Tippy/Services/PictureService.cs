@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImageMagick;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -14,6 +15,24 @@ namespace Tippy
 
         public PictureService()
         {
+        }
+
+        public byte[] GetWelcomeImage()
+        {
+            using (MagickImage image = new MagickImage(new MagickColor("#ff00ff"), 1024, 450))
+            {
+                {
+                    new Drawables()
+                    .FontPointSize(20)
+                    .Font("Comic Sans")
+                    .StrokeColor(new MagickColor("black"))
+                    .FillColor(MagickColors.White)
+                    .TextAlignment(TextAlignment.Center)
+                    .Text(512, 355, "WELCOME")
+                    .Draw(image);
+                    return image.ToByteArray();
+                }
+            }
         }
 
         public async Task<Stream> GetCatPictureAsync()

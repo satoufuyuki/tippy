@@ -138,5 +138,35 @@ namespace Tippy.Modules
                 await ReplyAsync("", false, builder.Build());
             }
         }
+
+        [Command("afk")]
+        [Alias("away")]
+        [Summary("Set your AFK reason")]
+        public async Task AfkAsync(string reason = null)
+        {
+            if (string.IsNullOrEmpty(reason))
+            {
+                reason = "None";
+            }
+            var data = await _manager.GetUsersByField("UserId", Context.Message.Author.Id.ToString());
+            if (data.FirstOrDefault().IsAfk == false)
+            {
+                string now = DateTime.UtcNow.ToString() + " | GMT+0000 (Coordinated Universal Time)";
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.WithAuthor($"{Context.Message.Author.Username} is now AFK", Context.Message.Author.GetAvatarUrl(ImageFormat.Png, 2048));
+                builder.WithColor(GetRandomColour());
+                builder.WithDescription($"```\n{reason}\n```");
+                if (Context.Message.Attachments.FirstOrDefault() != null)
+                {
+                    builder.WithImageUrl(Context.Message.Attachments.First().Url);
+                    await _manager.UpdateUser(Context.Message.Author.Id.ToString(), "AfkAttachment", Context.Message.Attachments.First().Url);
+                }
+
+                await _manager.UpdateUser(Context.Message.Author.Id.ToString(), "IsAfk", "true");
+                await _manager.UpdateUser(Context.Message.Author.Id.ToString(), "AfkReason", reason);
+                await _manager.UpdateUser(Context.Message.Author.Id.ToString(), "AfkTime", now);
+                await Context.Channel.SendMessageAsync(embed: builder.Build());
+            }
+        }
     }
 }

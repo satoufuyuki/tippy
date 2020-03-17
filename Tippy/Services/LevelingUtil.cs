@@ -8,6 +8,13 @@ namespace Tippy.Services
     public class LevelingUtil
     {
         Dictionary<long, bool> spamFilter = new Dictionary<long, bool>();
+        public string Cooldown(TimeSpan time, TimeSpan limit, string format)
+        {
+            TimeSpan now = DateTime.Now.TimeOfDay;
+            var estimated = (time + limit) - now;
+            if (estimated > new TimeSpan(0, 0, 0, 0)) return estimated.ToString(format);
+            else return "false";
+        }
         public long xpToNextLevel(int level)
         {
             return 10 * (((long)Math.Pow(level, 2)) + 10 * level + 20);

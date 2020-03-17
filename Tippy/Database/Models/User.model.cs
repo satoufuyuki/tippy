@@ -27,9 +27,30 @@ namespace Tippy.Database
         public TimeSpan LastDaily { get; set; }
 
         [BsonElement]
+        public TimeSpan NextDaily { get; set; }
+
+        [BsonElement]
         public TimeSpan LastRep { get; set; }
 
         [BsonElement]
+        public TimeSpan NextRep { get; set; }
+
+        [BsonElement]
         public TimeSpan LastWork { get; set; }
+
+        [BsonElement]
+        public TimeSpan NextWork { get; set; }
+
+        [BsonElement]
+        public Boolean IsAfk { get; set; }
+
+        [BsonElement]
+        public string AfkReason { get; set; }
+
+        [BsonElement]
+        public string AfkAttachment { get; set; }
+
+        [BsonElement]
+        public string AfkTime { get; set; }
     }
 }
