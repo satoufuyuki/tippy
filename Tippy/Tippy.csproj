@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.1.1" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.15.4" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.22.2.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="3.4.0" />
     <PackageReference Include="MongoDB.Bson" Version="2.10.2" />
     <PackageReference Include="MongoDB.Driver" Version="2.10.2" />
