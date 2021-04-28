@@ -1,0 +1,40 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: MongoDB.Driver.Core
+    versions:
+    - 2.11.6
+    - 2.12.0
+    - 2.12.1
+  - dependency-name: MongoDB.Driver
+    versions:
+    - 2.11.6
+    - 2.12.0
+    - 2.12.1
+  - dependency-name: MongoDB.Bson
+    versions:
+    - 2.11.6
+    - 2.12.0
+    - 2.12.1
+  - dependency-name: Magick.NET-Q16-AnyCPU
+    versions:
+    - 7.23.1
+    - 7.23.2
+    - 7.23.2.1
+    - 7.23.3
+  - dependency-name: Serilog.AspNetCore
+    versions:
+    - 3.4.0
+    - 4.0.0
+  - dependency-name: Discord.Net
+    versions:
+    - 2.2.0
+    - 2.3.0
+  - dependency-name: Microsoft.CodeAnalysis.Scripting
+    versions:
+    - 3.8.0
